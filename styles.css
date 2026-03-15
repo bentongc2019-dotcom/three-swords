@@ -1134,8 +1134,23 @@ body {
    响应式
    ======================================== */
 .mobile-menu-btn { display: none; font-size: 24px; color: var(--text-primary); background: none; border: none; cursor: pointer; padding-right: 12px; margin-right: 12px; border-right: 1px solid var(--border); }
-#mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 998; opacity: 0; transition: opacity 0.3s; }
+/* Mobile Overlay */
+#mobile-overlay {
+  display: block;
+  visibility: hidden;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 998;
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+}
 
+/* 默认隐藏移动端浮动按钮 */
+.mobile-ai-btn { display: none; }
+.mobile-ai-avatar { display: none; }
+
+/* ======== 响应式设计 ======== */
 @media (max-width: 1200px) {
   .ai-panel { display: none; }
   .ai-panel.mobile-show { display: flex; position: fixed; right: 0; top: calc(var(--header-height) + var(--progress-height)); z-index: 800; width: 320px; box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
@@ -1241,6 +1256,7 @@ body {
   }
   .mobile-ai-btn:active { transform: scale(0.95); }
   .mobile-ai-avatar {
+    display: block;
     width: 24px;
     height: 24px;
     border-radius: 50%;
