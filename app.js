@@ -277,27 +277,60 @@ function renderEmbedQuiz(lesson) {
     <div class="quiz-question">${q.q}</div>
     <div class="quiz-options">
       ${q.opts.map((opt, i) => `
-        <div class="quiz-option" id="${qid}-opt-${i}" onclick="checkEmbedQuiz('${qid}',${i},${q.ans},'${encodeURIComponent(q.exp).replace(/'/g, "%27")}')">
+        <div class="quiz-option" id="${qid}-opt-${i}" onclick="selectEmbedQuiz('${qid}',${i})">
           <div class="quiz-opt-key">${String.fromCharCode(65+i)}</div>
           ${opt}
         </div>`).join('')}
+    </div>
+    <div style="margin-top:12px">
+      <button id="${qid}-submit-btn" class="fq-submit" onclick="submitEmbedQuiz('${qid}',${q.ans},'${encodeURIComponent(q.exp).replace(/'/g, "%27")}')" disabled style="opacity:0.5;cursor:not-allowed;padding:8px 20px;border-radius:8px;font-size:13px">验证答案</button>
     </div>
     <div class="quiz-feedback" id="${qid}-fb"></div>
   </div>`;
 }
 
-window.checkEmbedQuiz = function(qid, chosen, ans, expEnc) {
+const embedQuizState = {};
+
+window.selectEmbedQuiz = function(qid, idx) {
   const fb = document.getElementById(qid + '-fb');
-  if (fb.classList.contains('show')) return;
+  if (fb && fb.classList.contains('show')) return;
+  
+  embedQuizState[qid] = idx;
   const opts = document.querySelectorAll(`[id^="${qid}-opt-"]`);
   opts.forEach((o, i) => {
+    o.classList.toggle('selected', i === idx);
+  });
+  
+  const submitBtn = document.getElementById(qid + '-submit-btn');
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.style.opacity = '1';
+    submitBtn.style.cursor = 'pointer';
+  }
+};
+
+window.submitEmbedQuiz = function(qid, ans, expEnc) {
+  const chosen = embedQuizState[qid];
+  if (chosen === undefined) return;
+  
+  const fb = document.getElementById(qid + '-fb');
+  if (fb.classList.contains('show')) return;
+  
+  const opts = document.querySelectorAll(`[id^="${qid}-opt-"]`);
+  opts.forEach((o, i) => {
+    o.classList.remove('selected');
     o.classList.add(i === ans ? 'correct' : (i === chosen ? 'wrong' : ''));
   });
+  
   fb.classList.add('show', chosen === ans ? 'correct' : 'wrong');
   fb.innerHTML = chosen === ans
     ? `✅ 正确！${decodeURIComponent(expEnc)}`
     : `❌ 再想想！${decodeURIComponent(expEnc)}`;
+    
   if (chosen === ans) updateXP(20);
+  
+  const btn = document.getElementById(qid + '-submit-btn');
+  if (btn) btn.style.display = 'none';
 };
 
 window.markComplete = function(lessonId) {
@@ -377,28 +410,45 @@ function renderFQQuestion() {
       <div class="fq-question">${q.q}</div>
       <div class="fq-options">
         ${q.opts.map((opt, i) => `
-          <div class="fq-opt" id="fq-opt-${i}" onclick="answerFQ(${i},${q.ans},'${encodeURIComponent(q.exp).replace(/'/g, "%27")}')">
+          <div class="fq-opt" id="fq-opt-${i}" onclick="selectFQ(${i})">
             <div class="fq-opt-letter">${String.fromCharCode(65+i)}</div>${opt}
           </div>`).join('')}
       </div>
       <div class="fq-feedback" id="fq-fb"></div>
       <div class="fq-actions">
-        <button class="fq-submit" onclick="answerFQ(-1,${q.ans},'${encodeURIComponent(q.exp).replace(/'/g, "%27")}')">提交答案</button>
+        <button class="fq-submit" id="fq-submit-btn" onclick="submitFQ(${q.ans},'${encodeURIComponent(q.exp).replace(/'/g, "%27")}')" disabled style="opacity:0.5;cursor:not-allowed">提交答案</button>
         <button class="fq-next" onclick="nextFQ()" style="display:none" id="fq-next-btn">下一题 →</button>
       </div>
     </div>`;
 }
 
-window.answerFQ = function(chosen, ans, expEnc) {
+let currentFQSelection = -1;
+
+window.selectFQ = function(idx) {
   if (quizAnswered) return;
-  quizAnswered = true;
-  if (chosen === -1) { chosen = -2; }
+  currentFQSelection = idx;
   document.querySelectorAll('.fq-opt').forEach((o, i) => {
-    o.classList.add(i === ans ? 'correct' : (i === chosen ? 'wrong' : ''));
+    o.classList.toggle('selected', i === idx);
+  });
+  const submitBtn = document.getElementById('fq-submit-btn');
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.style.opacity = '1';
+    submitBtn.style.cursor = 'pointer';
+  }
+};
+
+window.submitFQ = function(ans, expEnc) {
+  if (quizAnswered || currentFQSelection === -1) return;
+  quizAnswered = true;
+  document.querySelectorAll('.fq-opt').forEach((o, i) => {
+    o.classList.remove('selected');
+    o.classList.add(i === ans ? 'correct' : (i === currentFQSelection ? 'wrong' : ''));
     o.style.pointerEvents = 'none';
   });
+  
   const fb = document.getElementById('fq-fb');
-  const correct = chosen === ans;
+  const correct = currentFQSelection === ans;
   if (correct) { fq.score++; updateXP(10); }
   fb.classList.add('show', correct ? 'correct' : 'wrong');
   fb.style.background = correct ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)';
@@ -406,10 +456,16 @@ window.answerFQ = function(chosen, ans, expEnc) {
   fb.style.color = correct ? '#10b981' : '#ef4444';
   fb.style.padding = '14px 18px'; fb.style.borderRadius = '10px'; fb.style.marginBottom = '16px';
   fb.innerHTML = (correct ? '✅ 正确！' : '❌ ') + decodeURIComponent(expEnc);
+  
+  document.getElementById('fq-submit-btn').style.display = 'none';
   document.getElementById('fq-next-btn').style.display = 'inline-block';
 };
 
-window.nextFQ = function() { fq.idx++; renderFQQuestion(); };
+window.nextFQ = function() { 
+  currentFQSelection = -1; 
+  fq.idx++; 
+  renderFQQuestion(); 
+};
 
 function renderQuizResult() {
   const total = fq.questions.length;
