@@ -1158,6 +1158,8 @@ body {
   .mobile-menu-btn { display: block; }
   .logo-icon { margin-right: 4px; }
   
+  .ai-toggle-btn { display: none; } /* 移动端隐藏顶部 AI 按钮，改用悬浮按钮 */
+  
   /* 左侧边栏重置为抽屉式滑动菜单 */
   .left-sidebar {
     position: fixed;
@@ -1205,8 +1207,31 @@ body {
   .fq-submit, .fq-next { width: 100%; margin-bottom: 8px;}
   .quiz-selector { grid-template-columns: repeat(2, 1fr); }
   
-  .ai-toggle-btn { padding: 6px 10px; font-size: 12px; }
+  .ai-toggle-btn { padding: 6px 10px; font-size: 12px; display: none; }
   .header-inner { padding: 0 16px; }
+  
+  /* 移动端独立 AI 悬浮块 (右下角) */
+  .mobile-ai-btn {
+    display: flex;
+    position: fixed;
+    right: 20px;
+    bottom: 90px;
+    background: var(--accent-purple);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: var(--font-cn);
+    box-shadow: 0 8px 30px rgba(99,102,241,0.5);
+    z-index: 900;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  .mobile-ai-btn:active { transform: scale(0.95); }
 }
 
 @media (max-width: 480px) {
