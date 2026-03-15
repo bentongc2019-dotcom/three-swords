@@ -277,7 +277,7 @@ function renderEmbedQuiz(lesson) {
     <div class="quiz-question">${q.q}</div>
     <div class="quiz-options">
       ${q.opts.map((opt, i) => `
-        <div class="quiz-option" id="${qid}-opt-${i}" onclick="checkEmbedQuiz('${qid}',${i},${q.ans},'${encodeURIComponent(q.exp)}')">
+        <div class="quiz-option" id="${qid}-opt-${i}" onclick="checkEmbedQuiz('${qid}',${i},${q.ans},'${encodeURIComponent(q.exp).replace(/'/g, "%27")}')">
           <div class="quiz-opt-key">${String.fromCharCode(65+i)}</div>
           ${opt}
         </div>`).join('')}
@@ -377,13 +377,13 @@ function renderFQQuestion() {
       <div class="fq-question">${q.q}</div>
       <div class="fq-options">
         ${q.opts.map((opt, i) => `
-          <div class="fq-opt" id="fq-opt-${i}" onclick="answerFQ(${i},${q.ans},'${encodeURIComponent(q.exp)}')">
+          <div class="fq-opt" id="fq-opt-${i}" onclick="answerFQ(${i},${q.ans},'${encodeURIComponent(q.exp).replace(/'/g, "%27")}')">
             <div class="fq-opt-letter">${String.fromCharCode(65+i)}</div>${opt}
           </div>`).join('')}
       </div>
       <div class="fq-feedback" id="fq-fb"></div>
       <div class="fq-actions">
-        <button class="fq-submit" onclick="answerFQ(-1,${q.ans},'${encodeURIComponent(q.exp)}')">提交答案</button>
+        <button class="fq-submit" onclick="answerFQ(-1,${q.ans},'${encodeURIComponent(q.exp).replace(/'/g, "%27")}')">提交答案</button>
         <button class="fq-next" onclick="nextFQ()" style="display:none" id="fq-next-btn">下一题 →</button>
       </div>
     </div>`;
