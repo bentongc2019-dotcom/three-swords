@@ -1232,6 +1232,13 @@ body {
     transition: transform 0.3s;
   }
   .mobile-ai-btn:active { transform: scale(0.95); }
+  .mobile-ai-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #fff;
+  }
 }
 
 @media (max-width: 480px) {
