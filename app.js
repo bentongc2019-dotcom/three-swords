@@ -1,6 +1,21 @@
 // 宋老师与三把刀 · 主逻辑
 'use strict';
 
+window.toggleMobileSidebar = function(e) {
+  if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+  const sb = document.getElementById('left-sidebar');
+  const overlay = document.getElementById('mobile-overlay');
+  
+  if (e === true) {
+    if(sb) sb.classList.remove('mobile-open');
+    if(overlay) overlay.classList.remove('show');
+    return;
+  }
+  
+  if(sb) sb.classList.toggle('mobile-open');
+  if(overlay) overlay.classList.toggle('show');
+};
+
 // ── 状态 ──────────────────────────────────────
 let currentView = 'home';
 let currentLesson = null;
@@ -141,6 +156,7 @@ function renderModuleGrid() {
 }
 
 window.openModule = function(moduleId) {
+  if (window.innerWidth <= 900) toggleMobileSidebar(true);
   currentModule = MODULES.find(m => m.id === moduleId);
   if (!currentModule) return;
   showView('modules');
@@ -181,6 +197,7 @@ window.backToModules = function() {
 
 // ── Lesson 页 ─────────────────────────────────
 window.openLesson = function(moduleId, lessonId) {
+  if (window.innerWidth <= 900) toggleMobileSidebar(true);
   const mod = MODULES.find(m => m.id === moduleId);
   const lesson = mod?.lessons.find(l => l.id === lessonId);
   if (!lesson) return;

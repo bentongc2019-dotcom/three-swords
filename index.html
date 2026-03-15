@@ -21,6 +21,7 @@
   <header id="main-header">
     <div class="header-inner">
       <div class="logo-area">
+        <button id="mobile-menu-btn" class="mobile-menu-btn" onclick="toggleMobileSidebar(event)">☰</button>
         <div class="logo-icon">🗡️</div>
         <div class="logo-text">
           <span class="logo-title">宋老师与三把刀</span>
@@ -41,6 +42,7 @@
 
   <!-- 主体布局 -->
   <div class="app-layout">
+    <div id="mobile-overlay" onclick="toggleMobileSidebar()"></div>
 
     <!-- 左侧导航 -->
     <aside class="left-sidebar" id="left-sidebar">
