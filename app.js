@@ -483,7 +483,11 @@ function renderQuizResult() {
 
 // ── AI 助教 ────────────────────────────────────
 window.toggleAiPanel = function() {
-  document.getElementById('ai-panel').classList.toggle('hidden');
+  if (window.innerWidth <= 900) {
+    document.getElementById('ai-panel').classList.toggle('mobile-show');
+  } else {
+    document.getElementById('ai-panel').classList.toggle('hidden');
+  }
 };
 document.getElementById('ai-panel-toggle').addEventListener('click', toggleAiPanel);
 
