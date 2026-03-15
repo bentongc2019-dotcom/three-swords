@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>宋老师与三把刀 · AI IP 知识学习系统</title>
+  <meta name="description" content="深度学习宋老师的 IP 城市三角战略、21天IP打造流程、高变现账号定位与直播打法" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- 顶部学习进度条 -->
+  <div id="progress-bar-container">
+    <div id="progress-bar"></div>
+    <span id="progress-text">学习进度 0%</span>
+  </div>
+
+  <!-- 顶部导航 -->
+  <header id="main-header">
+    <div class="header-inner">
+      <div class="logo-area">
+        <div class="logo-icon">🗡️</div>
+        <div class="logo-text">
+          <span class="logo-title">宋老师与三把刀</span>
+          <span class="logo-sub">AI IP 知识学习系统</span>
+        </div>
+      </div>
+      <nav class="header-nav">
+        <button class="nav-btn active" data-view="home" id="btn-home">🏠 首页</button>
+        <button class="nav-btn" data-view="modules" id="btn-modules">📚 学习模块</button>
+        <button class="nav-btn" data-view="quiz" id="btn-quiz">🎯 测验中心</button>
+      </nav>
+      <div class="header-right">
+        <div class="xp-badge">⚡ <span id="xp-count">0</span> XP</div>
+        <button class="ai-toggle-btn" id="ai-panel-toggle">👶 大仁哥助教</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主体布局 -->
+  <div class="app-layout">
+
+    <!-- 左侧导航 -->
+    <aside class="left-sidebar" id="left-sidebar">
+      <div class="sidebar-header">
+        <span>课程导航</span>
+        <button class="sidebar-collapse" id="sidebar-toggle">◀</button>
+      </div>
+      <div class="module-nav" id="module-nav">
+        <!-- 由 JS 动态注入 -->
+      </div>
+      <div class="sidebar-stats">
+        <div class="stat-item">
+          <span class="stat-icon">✅</span>
+          <span id="completed-count">0</span>
+          <span>已完成</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon">🏆</span>
+          <span id="total-count">0</span>
+          <span>总课程</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content" id="main-content">
+      <!-- 首页视图 -->
+      <div id="view-home" class="view active">
+        <div class="hero-section">
+          <div class="hero-badge animated-badge">🗡️ × 3 三把刀哲学</div>
+          <h1 class="hero-title">宋老师与<span class="gradient-text">三把刀</span></h1>
+          <p class="hero-subtitle">AI × IP × 高客单 · 一人公司时代的变现法则</p>
+          <div class="hero-stats">
+            <div class="hstat"><span class="hstat-num">9</span><span class="hstat-label">资料来源</span></div>
+            <div class="hstat-divider"></div>
+            <div class="hstat"><span class="hstat-num">5</span><span class="hstat-label">学习模块</span></div>
+            <div class="hstat-divider"></div>
+            <div class="hstat"><span class="hstat-num">21</span><span class="hstat-label">天实操流程</span></div>
+            <div class="hstat-divider"></div>
+            <div class="hstat"><span class="hstat-num">∞</span><span class="hstat-label">AI 互动问答</span></div>
+          </div>
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="startLearning()">🚀 开始学习</button>
+            <button class="btn-secondary" onclick="showView('quiz')">🎯 直接测验</button>
+          </div>
+        </div>
+
+        <!-- 三把刀介绍 -->
+        <div class="section-title">什么是三把刀？</div>
+        <div class="three-swords">
+          <div class="sword-card animate-in" style="--delay:0.1s">
+            <div class="sword-icon">⚔️</div>
+            <h3>第一把刀：战略刀</h3>
+            <p>定位 × 打法 × 调研 —— IP 城市三角之战略，决定你能走多高</p>
+            <div class="sword-tag">IP定位</div>
+          </div>
+          <div class="sword-card animate-in" style="--delay:0.2s">
+            <div class="sword-icon">🗡️</div>
+            <h3>第二把刀：杠杆刀</h3>
+            <p>AI × 复制 × 系统 —— 让一份力气产生百倍效果的放大器</p>
+            <div class="sword-tag">AI杠杆</div>
+          </div>
+          <div class="sword-card animate-in" style="--delay:0.3s">
+            <div class="sword-icon">💰</div>
+            <h3>第三把刀：变现刀</h3>
+            <p>产品 × 效率 × 高客单 —— 从流量到现金流的完整闭环</p>
+            <div class="sword-tag">高客单</div>
+          </div>
+        </div>
+
+        <!-- 学习路径地图 -->
+        <div class="section-title">学习路径地图</div>
+        <div class="learning-map" id="learning-map">
+          <!-- 由 JS 注入 -->
+        </div>
+
+        <!-- 核心金句 -->
+        <div class="section-title">核心金句</div>
+        <div class="quote-carousel" id="quote-carousel">
+          <div class="quote-inner" id="quote-inner">
+            <!-- 由 JS 注入 -->
+          </div>
+          <div class="quote-controls">
+            <button onclick="prevQuote()">◀</button>
+            <div class="quote-dots" id="quote-dots"></div>
+            <button onclick="nextQuote()">▶</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 模块视图 -->
+      <div id="view-modules" class="view">
+        <div class="modules-header">
+          <h2 id="module-view-title">选择学习模块</h2>
+          <div class="breadcrumb" id="breadcrumb">首页 / 学习模块</div>
+        </div>
+        <div id="module-grid" class="module-grid">
+          <!-- 模块卡片 -->
+        </div>
+        <!-- Lesson 内容区 -->
+        <div id="lesson-content" class="lesson-content" style="display:none">
+          <!-- 动态注入 -->
+        </div>
+      </div>
+
+      <!-- 测验视图 -->
+      <div id="view-quiz" class="view">
+        <div class="quiz-container">
+          <div class="quiz-header">
+            <h2>🎯 知识测验中心</h2>
+            <p>检验你对宋老师核心方法论的掌握程度</p>
+          </div>
+          <div id="quiz-area">
+            <!-- 由 JS 注入 -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 右侧 AI 助教面板 -->
+    <aside class="ai-panel" id="ai-panel">
+      <div class="ai-panel-header">
+        <div class="ai-avatar"><img src="avatar.png" alt="大仁哥" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"></div>
+        <div>
+          <div class="ai-name">爱学习的大仁哥</div>
+          <div class="ai-status">在线 · 随时解答</div>
+        </div>
+        <button class="ai-close" onclick="toggleAiPanel()">×</button>
+      </div>
+      <div class="ai-messages" id="ai-messages">
+        <div class="ai-msg ai-msg-bot">
+          <div class="msg-bubble">👋 你好！我是爱学习的大仁哥，基于宋老师课程内容训练。<br><br>你可以问我任何关于 IP 打造、AI 应用、高客单变现的问题！</div>
+        </div>
+      </div>
+      <div class="ai-quick-btns" id="quick-btns">
+        <button onclick="askAI('什么是IP程式三角？')">IP程式三角？</button>
+        <button onclick="askAI('21天流程怎么操作？')">21天流程</button>
+        <button onclick="askAI('高客单怎么成交？')">高客单成交</button>
+        <button onclick="askAI('数字人有没有流量？')">数字人流量</button>
+        <button onclick="askAI('什么是低粉高赞？')">低粉高赞</button>
+        <button onclick="askAI('一人公司模式是什么？')">一人公司</button>
+      </div>
+      <div class="ai-input-area">
+        <textarea id="ai-input" placeholder="问我任何关于课程的问题..." rows="2"></textarea>
+        <button class="ai-send" onclick="sendAIMessage()" id="ai-send-btn">发送</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Toast 通知 -->
+  <div id="toast" class="toast"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
