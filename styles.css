@@ -1205,7 +1205,15 @@ body {
   /* 优化答题区 */
   .fq-actions { flex-direction: column; }
   .fq-submit, .fq-next { width: 100%; margin-bottom: 8px;}
-  .quiz-selector { grid-template-columns: repeat(2, 1fr); }
+  .quiz-selector { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  
+  /* 确保满屏测验区在移动端能正常滚动且不被遮挡 */
+  .full-quiz-area {
+    padding: 20px 16px;
+    height: auto;
+    overflow-y: visible;
+  }
+  .fq-opt { padding: 14px 16px; font-size: 14px; }
   
   .ai-toggle-btn { padding: 6px 10px; font-size: 12px; display: none; }
   .header-inner { padding: 0 16px; }
